@@ -6,19 +6,34 @@
     <title>ToDo</title>
   </head>
   <body>
-    <div class="container">
-      <div class="projects">
-        <div class="top"></div>
-        <div class="project"></div>
-      </div>
-      <div class="content">
-        <div class="top-content">
-          <div class="title">
-            <h1>Brain Dump</h1>
+    <div class="todo-container">
+      <h1>My todo list</h1>
+      <form id="add-task-form">
+        <div class="basic-input">
+          <input type="text" id="new-task" placeholder="Add a new task" required />
+        </div>
+        <div class="card-container hidden">
+          <div class="card">
+            <div class="card-front"></div>
+            <div class="card-back">
+              <div class="task-details">
+                <input type="date" id="task-due-date" />
+                <textarea id="task-description" placeholder="Add description..."></textarea>
+                <select id="task-priority">
+                  <option value="low">Low Priority</option>
+                  <option value="medium">Medium Priority</option>
+                  <option value="high">High Priority</option>
+                </select>
+                <div class="form-actions">
+                  <button type="submit" class="submit-task">Add Task</button>
+                  <button type="button" class="cancel-task">Cancel</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="todos"></div>
-      </div>
+      </form>
+      <ul id="task-list"></ul>
     </div>
   </body>
 </html>

@@ -10,12 +10,15 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devtool: "eval-source-map",
+  devtool: "inline-source-map",
   devServer: {
-    watchFiles: ["./src/template.html"],
+    static: "./dist",
+    hot: true,
+    open: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
+      title: "Todo App",
       template: "./src/template.html",
     }),
   ],
@@ -28,10 +31,6 @@ module.exports = {
       {
         test: /\.html$/i,
         loader: "html-loader",
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
       },
     ],
   },
