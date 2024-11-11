@@ -6,34 +6,48 @@
     <title>ToDo</title>
   </head>
   <body>
-    <div class="todo-container">
-      <h1>My todo list</h1>
-      <form id="add-task-form">
-        <div class="basic-input">
-          <input type="text" id="new-task" placeholder="Add a new task" required />
+    <div class="app-container">
+      <div class="sidebar">
+        <h2>Projects</h2>
+        <ul id="project-list">
+          <!-- Projects will be added here -->
+        </ul>
+        <div class="add-project">
+          <input type="text" id="new-project" placeholder="New project name" />
+          <button id="add-project-btn">+</button>
         </div>
-        <div class="card-container hidden">
-          <div class="card">
-            <div class="card-front"></div>
-            <div class="card-back">
-              <div class="task-details">
-                <input type="date" id="task-due-date" />
-                <textarea id="task-description" placeholder="Add description..."></textarea>
-                <select id="task-priority">
-                  <option value="low">Low Priority</option>
-                  <option value="medium">Medium Priority</option>
-                  <option value="high">High Priority</option>
-                </select>
-                <div class="form-actions">
-                  <button type="submit" class="submit-task">Add Task</button>
-                  <button type="button" class="cancel-task">Cancel</button>
+      </div>
+      <div class="main-content">
+        <div class="todo-container">
+          <h1 id="current-project">Default Project</h1>
+          <form id="add-task-form">
+            <div class="basic-input">
+              <input type="text" id="new-task" placeholder="Add a new task" required />
+            </div>
+            <div class="card-container hidden">
+              <div class="card">
+                <div class="card-front"></div>
+                <div class="card-back">
+                  <div class="task-details">
+                    <input type="date" id="task-due-date" />
+                    <textarea id="task-description" placeholder="Add description..."></textarea>
+                    <select id="task-priority">
+                      <option value="low">Low Priority</option>
+                      <option value="medium">Medium Priority</option>
+                      <option value="high">High Priority</option>
+                    </select>
+                    <div class="form-actions">
+                      <button type="submit" class="submit-task">Add Task</button>
+                      <button type="button" class="cancel-task">Cancel</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
+          <ul id="task-list"></ul>
         </div>
-      </form>
-      <ul id="task-list"></ul>
+      </div>
     </div>
   </body>
 </html>

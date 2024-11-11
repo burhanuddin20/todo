@@ -1,58 +1,82 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #dee2e6;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 100vh;
-    margin: 0;
-  }
-  
-  .todo-container {
+}
+
+.todo-container {
+    width: 90%;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 350px;
     transition: all 0.3s ease;
     min-height: 400px;
     max-height: 900px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-  }
-  
-  .todo-container.expanded {
+    margin-top: 20px;
+    height: fit-content;
+}
+
+.todo-container.expanded {
     max-height: 1050px;
-  }
-  
-  h1 {
+}
+
+h1 {
     text-align: center;
     font-size: 24px;
     color: #333;
-  }
-  
-  button {
+}
+
+button {
     padding: 8px 12px;
     background-color: #d04e1e;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #45a049;
-  }
-  
- 
-  
-  ul {
+}
+
+ul {
     list-style-type: none;
     padding-left: 0;
-  }
-  
-  li {
+}
+
+li {
     display: flex;
     flex-direction: column;
     padding: 12px;
@@ -61,29 +85,28 @@ body {
     border-radius: 4px;
     margin-bottom: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-  
-  li.completed {
+}
+
+li.completed {
     text-decoration: line-through;
     color: #bbb;
-  }
-  
-  .basic-input {
+}
+
+.basic-input {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
     width: 100%;
-  }
-  
-  .basic-input input {
+}
+
+.basic-input input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
     box-sizing: border-box;
-  }
-  
+}
 
 .task-details {
     padding: 12px;
@@ -95,12 +118,12 @@ body {
     transition: all 0.3s ease;
     /* Remove height calculation and margin-bottom */
 }
-  
-  .task-details.hidden {
+
+.task-details.hidden {
     display: none;
-  }
-  
-  .expand-form-btn {
+}
+
+.expand-form-btn {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -111,60 +134,58 @@ body {
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
-  }
-  
-  .expand-form-btn.active {
+}
+
+.expand-form-btn.active {
     transform: rotate(45deg);
-  }
-  
-  #task-description {
+}
+
+#task-description {
     min-height: 60px;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     resize: vertical;
-  }
-  
-  .form-actions {
+}
+
+.form-actions {
     display: flex;
     gap: 50px;
     justify-content: space-evenly;
-  }
-  
-  .cancel-task {
+}
+
+.cancel-task {
     background-color: #f44336;
-  }
-  
-  .cancel-task:hover {
+}
+
+.cancel-task:hover {
     background-color: #d32f2f;
-  }
-  
-  .card-container {
+}
+
+.card-container {
     margin-top: 20px;
     transition: all 0.3s ease;
     height: 0;
     opacity: 0;
     overflow: hidden;
-  }
-  
-  
-  .card {
+}
+
+.card {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     padding: 20px;
-  }
-  
-  .card-back {
+}
+
+.card-back {
     background-color: white;
     width: calc(100% - 40px);
     margin: 0 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  
-  
-  #task-description {
+}
+
+#task-description {
     min-height: 100px;
     padding: 12px;
     border: 1px solid #ddd;
@@ -172,68 +193,54 @@ body {
     resize: vertical;
     width: 100%;
     box-sizing: border-box;
-  }
-  
+}
 
-
-  
-  .submit-task {
+.submit-task {
     background-color: #4caf50;
-  }
-  
-  .submit-task:hover {
+}
+
+.submit-task:hover {
     background-color: #45a049;
-  }
-  
-  form {
+}
+
+form {
     display: flex;
     flex-direction: column;
 }
-  
-  .basic-input {
-    width: 100%;
-  }
-  
-  
-  .task-details input[type="date"] {
-    width: 100%;
-    padding: 8px;
-    height: 35px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-  
-  .task-details select {
-    padding: 8px;
-    height: 35px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
 
-  
-  .submit-task {
+.basic-input {
+    width: 100%;
+}
+
+.task-details input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    height: 35px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.task-details select {
+    padding: 8px;
+    height: 35px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.submit-task {
     background-color: #4caf50;
-  }
-  
-  .submit-task:hover {
-    background-color: #45a049;
-  }
-  
+}
 
-  
-  .basic-input {
-    width: 100%;
-  }
-  
- 
-  
-  input[type="date"] {
+.submit-task:hover {
+    background-color: #45a049;
+}
+
+input[type="date"] {
     width: 100%;
     padding: 4px 8px;  /* Reduced padding */
     height: 20px;      /* Reduced height */
@@ -416,6 +423,57 @@ select {
 .cancel-edit {
     background-color: #f44336;
     color: white;
+}
+
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.project-item:hover {
+    background-color: #e9ecef;
+}
+
+.project-item.active {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+.delete-project {
+    border: none;
+    background: none;
+    color: #dc3545;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.add-project {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+#new-project {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+#add-project-btn {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 

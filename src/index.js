@@ -1,29 +1,44 @@
 import './style.css';
-import { createTodo } from './todo/todo';
+import { createTodo, createProject } from './todo/todo';
 
-const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let projects = [];
+let currentProject = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Load projects from localStorage
+    const savedProjects = JSON.parse(localStorage.getItem('projects')) || [];
+    if (savedProjects.length === 0) {
+        // Create default project if none exist
+        const defaultProject = createProject('Default Project');
+        projects.push(defaultProject);
+    } else {
+        projects = savedProjects;
+    }
+    
+    currentProject = projects[0];
+    renderProjects();
+    renderTasks();
+
+    // Project creation
+    const addProjectBtn = document.getElementById('add-project-btn');
+    const newProjectInput = document.getElementById('new-project');
+
+    addProjectBtn.addEventListener('click', () => {
+        const projectName = newProjectInput.value.trim();
+        if (projectName) {
+            const newProject = createProject(projectName);
+            projects.push(newProject);
+            saveProjects();
+            renderProjects();
+            newProjectInput.value = '';
+        }
+    });
+
     const addTaskForm = document.getElementById('add-task-form');
     const taskInput = document.getElementById('new-task');
     const taskList = document.getElementById('task-list');
     const cardContainer = document.querySelector('.card-container');
     const cancelBtn = document.querySelector('.cancel-task');
-
-    // Restore existing tasks
-    tasks.forEach(taskData => {
-        const todo = createTodo({
-            text: taskData.text,
-            description: taskData.description || '',
-            dueDate: taskData.dueDate || null,
-            priority: taskData.priority || 'low'
-        });
-        todo.id = taskData.id;
-        todo.completed = taskData.completed;
-        todo.createdAt = new Date(taskData.createdAt);
-        const taskElement = createTaskElement(todo);
-        taskList.appendChild(taskElement);
-    });
 
     // Show card when input is focused
     taskInput.addEventListener('focus', () => {
@@ -58,10 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if(taskData.text) {
             const todo = createTodo(taskData);
-            tasks.push(todo);
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            currentProject.tasks.push(todo);
+            saveProjects();
             const taskElement = createTaskElement(todo);
-            taskList.appendChild(taskElement);
+            document.getElementById('task-list').appendChild(taskElement);
             addTaskForm.reset();
             cardContainer.classList.add('hidden');
         }
@@ -120,13 +135,13 @@ function createTaskElement(todo) {
     taskContent.querySelector('.task-text').addEventListener('click', () => {
         todo.toggleComplete();
         newTask.classList.toggle('completed');
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        saveProjects();
     });
 
     taskContent.querySelector('.done-btn').addEventListener('click', () => {
-        const taskIndex = tasks.findIndex(task => task.id === todo.id);
-        tasks.splice(taskIndex, 1);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        const taskIndex = currentProject.tasks.findIndex(task => task.id === todo.id);
+        currentProject.tasks.splice(taskIndex, 1);
+        saveProjects();
         newTask.remove();
     });
     
@@ -184,5 +199,66 @@ function openEditCard(todo, taskElement) {
     });
 
     document.body.appendChild(editCard);
+}
+
+function renderProjects() {
+    const projectList = document.getElementById('project-list');
+    projectList.innerHTML = '';
+    
+    projects.forEach(project => {
+        const li = document.createElement('li');
+        li.className = 'project-item';
+        if (project.id === currentProject.id) {
+            li.classList.add('active');
+        }
+        
+        li.innerHTML = `
+            <span class="project-name">${project.name}</span>
+            ${project.id !== projects[0].id ? '<button class="delete-project">×</button>' : ''}
+        `;
+        
+        li.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('delete-project')) {
+                currentProject = project;
+                renderProjects();
+                renderTasks();
+            }
+        });
+
+        const deleteBtn = li.querySelector('.delete-project');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm('Delete this project and all its tasks?')) {
+                    projects = projects.filter(p => p.id !== project.id);
+                    if (currentProject.id === project.id) {
+                        currentProject = projects[0];
+                    }
+                    saveProjects();
+                    renderProjects();
+                    renderTasks();
+                }
+            });
+        }
+
+        projectList.appendChild(li);
+    });
+}
+
+function renderTasks() {
+    const taskList = document.getElementById('task-list');
+    const projectTitle = document.getElementById('current-project');
+    
+    projectTitle.textContent = currentProject.name;
+    taskList.innerHTML = '';
+    
+    currentProject.tasks.forEach(task => {
+        const taskElement = createTaskElement(task);
+        taskList.appendChild(taskElement);
+    });
+}
+
+function saveProjects() {
+    localStorage.setItem('projects', JSON.stringify(projects));
 }
     

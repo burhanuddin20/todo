@@ -28,4 +28,20 @@ const createTodo = (data) => {
     };
 };
 
-export { createTodo }; 
+// Project factory function
+const createProject = (name) => {
+    return {
+        id: Date.now().toString(),
+        name,
+        tasks: [],
+        toJSON() {
+            return {
+                id: this.id,
+                name: this.name,
+                tasks: this.tasks
+            };
+        }
+    };
+};
+
+export { createTodo, createProject }; 
